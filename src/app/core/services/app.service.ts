@@ -26,7 +26,7 @@ export class AppService {
     params.append('code', code);
 
     let headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded; charset=utf-8' });
-    this._http.post('http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
+    this._http.post('http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
       .subscribe(
         data => {
           this.saveToken(data);
@@ -55,7 +55,7 @@ export class AppService {
   }
 
   login() {
-    window.location.href = 'http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
+    window.location.href = 'http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
       this.clientId + '&redirect_uri=' + this.redirectUri;
   }
 
@@ -67,7 +67,7 @@ export class AppService {
       + token
       + "&post_logout_redirect_uri=" + this.redirectUri;
 */
-    let logoutURL ="http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/logout?redirect_uri="+this.redirectUri;
+    let logoutURL ="http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/logout?redirect_uri="+this.redirectUri;
 
     window.location.href = logoutURL;
   }
