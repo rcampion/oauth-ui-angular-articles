@@ -1,0 +1,28 @@
+WWW-Authenticate: Bearer realm="zdslogic", error="invalid_token", error_description="Invalid token issuer. Expected 'http://127.0.0.1:8080/auth/realms/zdslogic', but was 'http://localhost:8080/auth/realms/zdslogic'"
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=newClient&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fresource-server%2Fsso%2Flogin&state=bdff7e43-2198-470e-ba3b-cf336ade1dd0&login=true&scope=openid
+
+
+2020-05-25 13:27:58.790 ERROR 10672 --- [ost-startStop-1] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'keycloakClientRequestFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: 
+
+
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=newClient&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fresource-server%2Fsso%2Flogin&state=dbbba17e-137a-4d71-a7fb-b602d28e723e&login=true&scope=openid
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=newClient&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fresource-server%2Fsso%2Flogin&state=dbbba17e-137a-4d71-a7fb-b602d28e723e&login=true&scope=openid
+
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=newClient&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fresource-server%2Fsso%2Flogin&state=84f8dcc6-98e7-4b38-86a2-f6c743084e30&login=true&scope=openid
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=newClient&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fresource-server%2Fsso%2Flogin&state=d03e34f3-a942-4d51-8d0a-815ac4266ab8&login=true&scope=openid
+
+T15:47:35Z
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=newClient&redirect_uri=http://localhost:8089/about
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?client_id=account&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Frealms%2Fzdslogic%2Faccount%2Flogin-redirect&state=0%2F69da8209-70da-4a6e-b975-3b2ecfc4e047&response_type=code&scope=openid
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/auth?client_id=account&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Frealms%2Fzdslogic%2Faccount%2Flogin-redirect&state=0%2F69da8209-70da-4a6e-b975-3b2ecfc4e047&response_type=code&scope=openid
+
+http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/logout?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Frealms%2Fzdslogic%2Faccount%2F
+
