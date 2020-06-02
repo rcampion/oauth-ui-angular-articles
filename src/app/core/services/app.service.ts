@@ -8,7 +8,6 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class AppService {
   public clientId = 'newClient';
-  //public redirectUri = 'http://localhost:8089/home';
   public redirectUri = environment.redirectUri;
   private _http: HttpClient;
   private userService: UsersService;
@@ -28,14 +27,13 @@ export class AppService {
     params.append('code', code);
 
     let headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded; charset=utf-8' });
-//    this._http.post('http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
-//${environment.api_url}${path}
-this._http.post(environment.sso_url+'/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
+
+    this._http.post(environment.sso_url+'/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
       .subscribe(
         data => {
           this.saveToken(data);
           this.userService.loginViaSSO();
-          // window.location.href = 'http://localhost:8089'; 
+
         },
         err => alert(err + '\nInvalid Credentials')
       );
