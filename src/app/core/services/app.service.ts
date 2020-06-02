@@ -3,12 +3,13 @@ import { Cookie } from 'ng2-cookies';
 import { HttpClient, HttpHeaders, HttpBackend } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UsersService } from '../../core/services/users.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AppService {
   public clientId = 'newClient';
   //public redirectUri = 'http://localhost:8089/home';
-  public redirectUri = 'https://www.zdslogic.com/articles/home';
+  public redirectUri = environment.redirectUri;
   private _http: HttpClient;
   private userService: UsersService;
 
@@ -28,7 +29,8 @@ export class AppService {
 
     let headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded; charset=utf-8' });
 //    this._http.post('http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
-    this._http.post('https://www.zdslogic.com/keycloak/auth/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
+//${environment.api_url}${path}
+this._http.post(environment.sso_url+'/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
       .subscribe(
         data => {
           this.saveToken(data);
@@ -58,7 +60,7 @@ export class AppService {
 
   login() {
 //    window.location.href = 'http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
-      window.location.href = 'https://www.zdslogic.com/keycloak/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
+      window.location.href = environment.sso_url+'/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
       this.clientId + '&redirect_uri=' + this.redirectUri;
   }
 
@@ -71,7 +73,7 @@ export class AppService {
       + "&post_logout_redirect_uri=" + this.redirectUri;
 */
 //    let logoutURL ="http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/logout?redirect_uri="+this.redirectUri;
-    let logoutURL ="https://www.zdslogic.com/keycloak/auth/realms/zdslogic/protocol/openid-connect/logout?redirect_uri="+this.redirectUri;
+    let logoutURL =environment.sso_url+'/realms/zdslogic/protocol/openid-connect/logout?redirect_uri='+this.redirectUri;
 
     window.location.href = logoutURL;
   }
