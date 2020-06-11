@@ -428,6 +428,7 @@ export class UsersService {
     purgeAuth() {
         // Remove JWT from localstorage
         this.jwtService.destroyToken();
+        // Cookie.delete('access_token', '/');
         // Set current user to an empty object
         this.currentUserSubject.next({} as User);
         // Set auth status to false
