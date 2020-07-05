@@ -75,7 +75,9 @@ import { CommonService } from './core/services/common.service';
     providers: [{
         provide: 'externalUrlRedirectResolver',
         useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-            window.location.href = (route.data as any).externalUrl;
+            //window.location.href = (route.data as any).externalUrl;
+            let url = (route.data as any).externalUrl;
+            window.open(url, '_blank');
         }
     },
         CommonService, UsersService, RegistrationService, LoginRouteGuard, AuthorizationRouteGuard, AccountEventsService, ErrorService,
