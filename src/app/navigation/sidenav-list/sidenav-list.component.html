@@ -35,4 +35,13 @@
     <button *appShowAuthed="true" mat-menu-item routerLink="/password" (click)="onSidenavClose()">Change Password</button>
   </mat-menu>
 -->
+  <mat-list-item [matMenuTriggerFor]="appsmenu">
+    <mat-icon>unfold_more</mat-icon>
+    <a matline>Apps</a>
+  </mat-list-item>
+  <mat-menu #appsmenu="matMenu">
+    <button mat-menu-item routerLink="/dashboard" (click)="onSidenavClose()">Dashboard</button>
+    <button mat-menu-item routerLink="/logs" (click)="onSidenavClose()">Logs</button>
+    <button mat-menu-item routerLink="/whois" (click)="onSidenavClose()">Whois</button>
+  </mat-menu>
 </mat-nav-list>

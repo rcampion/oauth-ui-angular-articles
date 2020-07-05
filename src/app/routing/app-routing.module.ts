@@ -32,8 +32,39 @@ const routes: Routes = [
     { path: 'editor',
         loadChildren: () => import("./../editor/editor.module").then(m => m.EditorModule), canActivate: [LoginRouteGuard]},
     { path: 'article',
-        loadChildren: () => import("./../article/article.module").then(m => m.ArticleModule)}
-];
+        loadChildren: () => import("./../article/article.module").then(m => m.ArticleModule)},
+    {
+        path: 'dashboard',
+        component: AboutComponent,
+        resolve: {
+            url: 'externalUrlRedirectResolver'
+        },
+        data: {
+            externalUrl: 'https://www.zdslogic.com/dashboard'
+        }
+    },
+    {
+        path: 'logs',
+        component: AboutComponent,
+        resolve: {
+            url: 'externalUrlRedirectResolver'
+        },
+        data: {
+            externalUrl: 'https://www.zdslogic.com/dashboard/log/logs'
+        }
+    },
+    {
+        path: 'whois',
+        component: AboutComponent,
+        resolve: {
+            url: 'externalUrlRedirectResolver'
+        },
+        data: {
+            externalUrl: 'https://www.zdslogic.com/dashboard/whois'
+        }
+    },
+
+    ];
 
 @NgModule({
     imports: [
