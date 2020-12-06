@@ -10,8 +10,13 @@ export const environment = {
 //  api_url: 'http://localhost:8080/ng9-spring-server/api'
   redirectUri: 'http://localhost:8089/home',
 // sso_url: 'http://localhost:18080/auth',
+//  sso_url: 'https://www.zdslogic.com/keycloak/auth',
+//  api_url: 'http://localhost:8081/resource-server/api'
   sso_url: 'https://www.zdslogic.com/keycloak/auth',
-  api_url: 'http://localhost:8081/resource-server/api'
+  api_url: 'http://localhost:8082/dashboard-server/api',
+// api_url: 'https://www.zdslogic.com/dashboard-server/api',
+  ws_url: 'http://localhost:8082/dashboard-server/live'
+//ws_url: 'https://www.zdslogic.com/dashboard-server/live'
 
 };
 
