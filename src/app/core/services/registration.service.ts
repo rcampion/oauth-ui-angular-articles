@@ -13,14 +13,14 @@ export class RegistrationService {
 
     constructor(private http: HttpClient) { }
 
-    register(userName: string, firstName: string, lastName: string, password: string) {
+    register(userName: string, firstName: string, lastName: string, email: string, password: string) {
 
         const headers = new HttpHeaders(
             {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Access-Control-Allow-Credentials': 'true',
-                'Authorization': 'Bearer ' + Cookie.get('access_token')
+                'Accept': 'application/json'
+//                'Access-Control-Allow-Credentials': 'true',
+//                'Authorization': 'Bearer ' + Cookie.get('access_token')
             }
         );
 
@@ -28,7 +28,7 @@ export class RegistrationService {
         // return this.http.post(AppUtils.BACKEND_API_ROOT_URL + AppUtils.BACKEND_API_AUTHENTICATE_PATH, JSON.stringify({ login: userName, password: password }), {
         const route = 'user/registration';
         return this.http.post(this.createCompleteRoute(route, environment.api_url),
-            JSON.stringify({ userName: userName, firstName: firstName, lastName: lastName, password: password }), {
+            JSON.stringify({ userName: userName, firstName: firstName, lastName: lastName, email: email, password: password }), {
                 headers: headers,
                 observe: 'response'
             });

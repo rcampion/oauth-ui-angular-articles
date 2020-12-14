@@ -4,8 +4,8 @@
       <mat-card-title>Register</mat-card-title>
     </mat-card-header>
 
-    <form [formGroup]="userForm" autocomplete="off" novalidate fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
-
+    <form [formGroup]="userForm" autocomplete="off" novalidate (ngSubmit)="register(userForm.value)"
+      fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
 
       <mat-card-content>
 
@@ -27,14 +27,26 @@
 
         <br/>
 
+        <mat-form-field>
+          <input matInput type="text" placeholder="E-Mail" formControlName="email" id="email">
+        </mat-form-field>
+
+        <br/>
+
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Password" formControlName="password" id="password" type="password" name="password" required>
         </mat-form-field>
 
+        <re-captcha (resolved)="resolved($event)" siteKey="6LekHPgZAAAAAF22P6SL0snnu1stiwZkYN-slvea"></re-captcha>
+
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button (click)="register()" color="primary">Register</button>
+
+      <mat-card-actions align="center">
+        <button mat-raised-button color="primary" [disabled]="!userForm.valid || !recaptcha">Register</button>
+        <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
       </mat-card-actions>
+
     </form>
   </mat-card>
 </section>
+

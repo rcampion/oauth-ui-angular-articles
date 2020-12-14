@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../../core/models/user';
 import { AppService } from '../../core/services/app.service';
 import { UsersService } from '../../core/services/users.service';
@@ -13,7 +14,10 @@ export class HeaderComponent implements OnInit {
     userService: UsersService;
     @Output() public sidenavToggle = new EventEmitter();
     currentUser: User;
-    constructor(private _service: AppService, userService: UsersService) {
+    constructor(
+        private router: Router, 
+        private _service: AppService, 
+        userService: UsersService) {
         this.userService = userService;
     }
 
@@ -44,5 +48,10 @@ export class HeaderComponent implements OnInit {
     logout(): void {
         this._service.logout();
         this.userService.logout();
+    }
+
+    public redirectToRegister = () => {
+        const url = `/register`;
+        this.router.navigate([url]);
     }
 }

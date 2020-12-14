@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 // import { RequestInterceptor } from './core/services/request.interceptor';
@@ -70,7 +71,11 @@ import { CommonService } from './core/services/common.service';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        RecaptchaModule,
+    ],
+    exports: [
+        RecaptchaModule
     ],
     providers: [{
         provide: 'externalUrlRedirectResolver',

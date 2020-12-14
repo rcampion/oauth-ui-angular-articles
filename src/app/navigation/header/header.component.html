@@ -7,6 +7,11 @@
         <button *ngIf="!userService.isUserAuthenticated()" class="btn btn-primary" (click)="login()"
           type="submit">Login</button>
       </li>
+
+      <li class="nav-item">
+        <button *ngIf="!userService.isUserAuthenticated()" class="btn btn-primary" (click)="redirectToRegister()"
+          type="submit">Register</button>
+      </li>
     </ul>
 
     <!-- Show this for logged in users -->
