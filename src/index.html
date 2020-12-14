@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Articles</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-<!--
+  <!--
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -15,10 +16,50 @@
 
   <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
 
-  <link href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+  <link
+    href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic"
+    rel="stylesheet" type="text/css">
+
+  <link type="text/css" rel="stylesheet" media="screen"
+    href="assets/common/js/converse.js-7.0.3/package/dist/converse.min.css" />
+  <script src="assets/common/js/converse.js-7.0.3/package/dist/converse.js"></script>
+  <script src="assets/common/js/clock/clock.js"></script>
 
 </head>
+
 <body class="mat-typography">
+  <script>
+    converse.initialize({
+      allow_logout: false, // No point in logging out when we have auto_login as true.
+      allow_muc_invitations: false, // Doesn't make sense to allow because only
+      // roster contacts can be invited
+      allow_contact_requests: false, // Contacts from other servers cannot,
+      // be added and anonymous users don't
+      // know one another's JIDs, so disabling.
+      authentication: 'login',
+      jid: 'anonymous@zdslogic.com',
+      password: 'anonymous',
+      auto_login: true,
+      auto_reconnect: true,
+      auto_join_rooms: [
+        'anonymous@conference.zdslogic.com',
+      ],
+      notify_all_room_messages: [
+        'anonymous@conference.zdslogic.com',
+      ],
+      bosh_service_url: 'https://zdslogic.com/http-bind/', // Please use this connection manager only for testing purposes
+      // jid : 'zdslogic.com', // XMPP server which allows anonymous login (doesn't
+      // allow chatting with other XMPP servers).
+      keepalive: false,
+      hide_muc_server: true, // Federation is disabled, so no use in
+      // showing the MUC server.
+      play_sounds: true,
+      show_controlbox_by_default: false,
+      strict_plugin_dependencies: false,
+    });
+  </script>
+
   <app-root></app-root>
 </body>
+
 </html>
