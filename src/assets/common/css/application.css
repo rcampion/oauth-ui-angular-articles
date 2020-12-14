@@ -1,0 +1,271 @@
+#site-content {
+	position: relative;
+	margin-left: 185px;
+	font-size: 80%;
+	vertical-align: top;
+}
+
+#shop-content {
+	*background: white;
+	*padding: 14px;
+	*padding-bottom: 25px;
+	*border: 1px solid #D8D8E7;
+	
+	width: 980px;
+    margin-top: -5px;
+    background-color: #fff;
+    padding-bottom: 30px;
+    *-moz-box-shadow: 0px 2px 7px #C2B9B3;
+    *-webkit-box-shadow: 0px 2px 7px #C2B9B3;
+    *box-shadow: 0px 2px 7px #C2B9B3;
+    z-index: 1;
+    display: block;
+}
+
+#shop-content-header {
+	margin-bottom: 0.1em;
+}
+
+#shop-content-subheader {
+	font-size: 100%;
+	line-height: 1.2em;
+	margin: 0 0 1.4em 1em;
+	color: #7d7d7d;
+	width: auto;
+}
+
+#category-index {
+	border: 1px solid #aaa;
+	background-color: #f9f9f9;
+	padding: 10px 5px 10px 5px;
+	margin-top: 1em;
+	clear: both;
+}
+
+
+#left_column {
+    width: 740px;
+    *width: 640px;
+    float: left;
+}
+
+    #left_column header {
+        *width: 700px;
+        width: 600px;
+        margin-top: 20px;
+        padding: 0 20px;
+        border: none;
+    }
+    
+    #left_column header h1 {
+        width: 70%;
+        font: bold 20px/24px Helvetica, sans-serif;
+        color: #262322;
+        float: left;
+    }
+    
+    #left_column header #sort {
+        font-size: 12px;
+        margin-top: 6px;
+        line-height: 14px;
+        text-align: right;
+        *float: right;
+        float: left;
+    }
+    
+        #left_column header #sort span.heading {
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        #left_column header #sort a {
+            padding: 2px 4px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            font-weight: normal;
+            color: #655C5A;
+            text-decoration: none;
+        }
+        
+        #left_column header #sort a.active {
+            background: #EAEBE3;
+            font-weight: bold;
+        }
+        
+        #left_column header #sort a.asc:after {
+            font-size: 8px;
+            margin-left: 5px;
+            content: "\25B2";
+        }
+        
+        #left_column header #sort a.desc:after {
+            font-size: 8px;
+            margin-left: 5px;
+            content: "\25BC";
+        }
+
+    
+#products {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+}
+
+    #products li {
+        width: 220px;
+        *height: 440px;
+        margin-left: 20px;
+        text-align: center;
+        float: left;
+        display: inline;
+        position: relative;
+    }
+    
+        #products li .new_badge {
+            width: 60px;
+            height: 60px;
+            background: url('../img/badge-new.png') no-repeat;
+            text-indent: -9999px;
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            z-index: 20;
+        }
+    
+        #products li .image {
+            width: 220px;
+            height: 220px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+            #products li .image .has-sale {
+                text-decoration: line-through;
+            }
+            
+            #products li .image .sale {
+                color: #E40037;
+                bottom: 41px;
+                padding: 0 0 5px 0;
+            }
+        
+            #products li .image .price {
+                position: absolute;
+                background-color: black;
+                color: white;
+                opacity: 0.8;
+                padding: 10px 20px;
+                font: 16px/16px 'Open Sans', Helvetica, sans-serif;
+                font-weight: 600;
+                bottom: 5px;
+                right: 5px;
+            }
+        
+            #products li .image img {
+                width: 220px;
+                height: auto;
+            }
+        
+        #products li .content {
+            width: 220px;
+            height: 118px;
+            font: 13px/18px 'Georgia',serif;
+            color: #655c5a;
+            overflow: hidden;
+            max-height: 118px;
+        }
+        
+        #products li .content .title {
+            width: 220px;
+            font: 18px/21px 'Oxygen', Helvetica, sans-serif;
+            margin-bottom: 7px;
+            color: #262322;
+        }
+        
+            #products li .content .title a:link, #products li .content .title a:visited {
+                color: #262322;
+                text-decoration: none;
+            }
+        
+        
+        .product-options.modal .productActions, .product-options.modal h3 {
+            text-align: center;
+        }
+
+
+/* footer */
+
+#footer-logo {
+	font-size: 0.9em;
+	padding-top: 10px;
+	text-align: right;
+}
+#footer-custom {
+	font-size: 0.9em;
+	text-align: center;
+}
+
+footer {
+    width: 940px;
+    *background: url(../img/zdslogic-seal.png) top center no-repeat;
+    margin: 40px auto;
+    padding: 0 20px;
+    padding-bottom: 40px;
+    font: 12px/16px 'Georgia', serif;
+    color: #655c5a;
+}
+
+    footer #left_content h4, footer #right_content h4 {
+        font: 12px/17px 'Open Sans', Helvetica, sans-serif;
+        font-weight: 600;
+        letter-spacing: 5px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        color: #262322;
+    }
+    
+    footer #left_content {
+        width: 405px;
+        text-align: right;
+        float: left;
+    }
+    
+    footer #right_content {
+        width: 400px;
+        text-align: left;
+        float: right;
+    }
+
+    footer #blc_brand {
+        display: block;
+        height: 60px;
+        text-align: left;
+        font: 10px/13px 'Georgia', serif;
+        padding: 10px 0 0 521px;
+        margin: 100px 0 0 -200px;
+
+    }
+
+    footer #blc_brand img {
+        display: inline-block;
+    }
+
+    footer #blc_brand p {
+        display: block;
+        margin: -20px 0 0 100px;
+    }
+
+    footer #blc_brand h4, footer #blc_brand a{
+        font: 10px/15px 'Open Sans', Helvetica, sans-serif;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #262322;
+        text-decoration: none;
+        display: inline-block;
+    }
+
