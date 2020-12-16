@@ -1,47 +1,39 @@
 <nav class="navbar navbar-light">
-
   <div class="container">
     <!-- Show this for logged out users -->
-    <ul *appShowAuthed="false" class="nav navbar-nav pull-xs-right">
+    <ul *ngIf="!isUserLoggedIn" class="nav navbar-nav pull-xs-right">
       <li class="nav-item">
-        <button *ngIf="!userService.isUserAuthenticated()" class="btn btn-primary" (click)="login()"
-          type="submit">Login</button>
+        <button class="btn btn-primary" (click)="login()" type="submit">Login</button>
       </li>
-
       <li class="nav-item">
-        <button *ngIf="!userService.isUserAuthenticated()" class="btn btn-primary" (click)="redirectToRegister()"
-          type="submit">Register</button>
+        <button class="btn btn-primary" (click)="redirectToRegister()" type="submit">Register</button>
       </li>
     </ul>
 
     <!-- Show this for logged in users -->
-    <ul *appShowAuthed="true" class="nav navbar-nav pull-xs-right">
+    <div *ngIf="isUserLoggedIn">
+      <ul class="nav navbar-nav pull-xs-right">
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/editor" routerLinkActive="active">
-          <i class="ion-compose"></i>&nbsp;New Article
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/settings" routerLinkActive="active">
+            <i class="ion-gear-a"></i>&nbsp;Settings
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/settings" routerLinkActive="active">
-          <i class="ion-gear-a"></i>&nbsp;Settings
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/profile', currentUser.userName]" routerLinkActive="active">
+            <img [src]="currentUser.image" *ngIf="currentUser.image" class="user-pic" />
+            {{ currentUser.userName }}
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/profile', currentUser.userName]" routerLinkActive="active">
-          <img [src]="currentUser.image" *ngIf="currentUser.image" class="user-pic" />
-          {{ currentUser.userName }}
-        </a>
-      </li>
+        <li class="nav-item">
+          <button *ngIf="userService.isUserAuthenticated()" class="btn btn-primary" (click)="logout()"
+            type="submit">Logout</button>
+        </li>
 
-      <li class="nav-item">
-        <button *ngIf="userService.isUserAuthenticated()" class="btn btn-primary" (click)="logout()"
-          type="submit">Logout</button>
-      </li>
-
-    </ul>
+      </ul>
+    </div>
 
   </div>
 </nav>

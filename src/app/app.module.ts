@@ -36,6 +36,8 @@ import { PasswordComponent } from './password/password.component';
 import { CoreModule } from './core/core.module';
 
 import { CommonService } from './core/services/common.service';
+import { SocketClientService } from './core/services/socket-client.service';
+import { DataSharingService } from './core/services/datasharing.service';
 
 @NgModule({
     declarations: [
@@ -85,7 +87,15 @@ import { CommonService } from './core/services/common.service';
             window.open(url, '_blank');
         }
     },
-        CommonService, UsersService, RegistrationService, LoginRouteGuard, AuthorizationRouteGuard, AccountEventsService, ErrorService,
+        DataSharingService,
+        SocketClientService,
+        CommonService,
+        UsersService,
+        RegistrationService,
+        LoginRouteGuard,
+        AuthorizationRouteGuard,
+        AccountEventsService,
+        ErrorService,
     ],
     bootstrap: [AppComponent, ErrorComponent]
 })

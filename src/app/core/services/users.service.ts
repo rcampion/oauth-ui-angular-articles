@@ -242,6 +242,83 @@ export class UsersService {
         localStorage.removeItem(AppUtils.STORAGE_ACCOUNT_TOKEN);
     }
 
+    getUserViaSSO() {
+
+        try {
+            this.getUser()
+
+                .subscribe(account => {
+                    this.account = account;
+                    console.log('Successfully logged in.', account);
+                    this.account.authenticated = true;
+                    this.router.navigateByUrl('/home');
+                },
+
+                    (err) => this.error = err); // Reach here if fails;
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    getUser() : Observable<Account>{
+        const headers = new HttpHeaders(
+            {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Credentials': 'true',
+                'Authorization': 'Bearer ' + Cookie.get('access_token')
+
+            }
+        );
+        const route = 'sso/getuser';
+        return this.http.post(this.createCompleteRoute(route, environment.api_url), "dummy",
+            {
+                headers: headers,
+                observe: 'response'
+            })
+
+            .pipe(
+
+                catchError((error: any) => {
+                    if (error.status === 401) {
+                        this.errorService.changeMessage('Unauthorized request! Username/Password is invalid.');
+                        return throwError(
+                            'Unauthorized, Username / Password are invalid.');
+                    } else {
+                        if (error.status === 403) {
+                            this.errorService.changeMessage('Unauthorized request!');
+                            return throwError(
+                                'Unauthorized');
+
+                        } else {
+                            this.errorService.changeMessage(error.message);
+                            return throwError(
+                                'Unknown');
+                        }
+                    }
+                    // do any other checking for statuses here
+                }),
+
+
+                map((res: any) => {
+
+                    localStorage.setItem(AppUtils.STORAGE_ACCOUNT_TOKEN, JSON.stringify(res.body));
+
+                    this.account = new Account(res);
+                    this.account.authenticated = true;
+                    this.sendLoginSuccess(this.account);
+
+                    this.errorService.changeMessage('');
+                    this.setAuth(res.body);
+                    this.router.navigateByUrl('/home');
+                    return this.account;
+                })
+
+            );
+
+    }
+
     loginViaSSO() {
 
         try {
@@ -252,7 +329,6 @@ export class UsersService {
                     console.log('Successfully logged in.', account);
                     this.account.authenticated = true;
                     this.router.navigateByUrl('/home');
-                    // window.location.href = '/articles/home';
                 },
 
                     (err) => this.error = err); // Reach here if fails;
@@ -261,7 +337,29 @@ export class UsersService {
             console.log(e);
         }
     }
+/*    
+    public loginViaSSO(): Observable<User> {
 
+        try {
+            this.login()
+
+                .subscribe(account => {
+                    this.account = account;
+                    console.log('Successfully logged in.', account);
+                    this.account.authenticated = true;
+                    //this.router.navigateByUrl('/home');
+
+                },
+
+                    (err) => this.error = err); // Reach here if fails;
+
+        } catch (e) {
+            console.log(e);
+        }
+
+        return this.currentUser;
+    }
+*/
     public login(): Observable<Account> {
 
         const headers = new HttpHeaders(
@@ -321,7 +419,7 @@ export class UsersService {
     }
 
     logout(callServer: boolean = true): void {
-        console.log('Logging in');
+        console.log('Logging out');
         const headers = new HttpHeaders(
             {
                 'Content-Type': 'application/json',
@@ -331,7 +429,7 @@ export class UsersService {
             }
         );
         if (callServer) {
-            const route = 'logout';
+            const route = 'sso/logout';
             this.http.get(this.createCompleteRoute(route, environment.api_url), {
                 headers: headers,
                 observe: 'response'
@@ -339,8 +437,8 @@ export class UsersService {
                 this.accountEventService.logout(new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN))));
                 this.removeAccount();
                 this.purgeAuth();
-                this.router.navigate(['/about']);
-                window.location.reload();
+                //this.router.navigate(['/about']);
+                //window.location.reload();
             });
         } else {
             this.removeAccount();

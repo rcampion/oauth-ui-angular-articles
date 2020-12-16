@@ -1,20 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Cookie } from 'ng2-cookies';
 import { HttpClient, HttpHeaders, HttpBackend } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UsersService } from '../../core/services/users.service';
-import { environment } from '../../../environments/environment';
+import { Observable, Subject } from 'rxjs';
+import { map, catchError, takeUntil } from 'rxjs/operators';
 
-@Injectable()
+import { UsersService } from '../../core/services/users.service';
+import { SocketClientService } from '../../core/services/socket-client.service';
+import { environment } from '../../../environments/environment';
+import { Contact } from '../interface/contact.model';
+import { AuthenticationService } from './authentication.service';
+import { User } from '../models/user';
+import { DataSharingService } from './datasharing.service';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AppService {
   public clientId = 'newClient';
+  //public redirectUri = 'http://localhost:8089/home';
   public redirectUri = environment.redirectUri;
-  private _http: HttpClient;
+  private http: HttpClient;
   private userService: UsersService;
+  private dataService: SocketClientService;
+  private authService: AuthenticationService;
 
-  constructor(private handler: HttpBackend, userService: UsersService) {
-    this._http = new HttpClient(handler);
+  currentUser: User;
+
+  messages9: any;
+  mysubid9 = 'my-subscription-id-009';
+
+  private unsubscribeSubject: Subject<void> = new Subject<void>();
+
+  constructor(private handler: HttpBackend,
+    userService: UsersService,
+    dataService: SocketClientService,
+    authService: AuthenticationService,
+    private dataSharingService: DataSharingService) {
+
+    this.http = new HttpClient(handler);
     this.userService = userService;
+    this.dataService = dataService;
+    this.authService = authService;
   }
 
   retrieveToken(code) {
@@ -28,15 +54,45 @@ export class AppService {
 
     let headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded; charset=utf-8' });
 
-    this._http.post(environment.sso_url+'/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
+    this.http.post(environment.sso_url + '/realms/zdslogic/protocol/openid-connect/token', params.toString(), { headers: headers })
       .subscribe(
         data => {
           this.saveToken(data);
+
           this.userService.loginViaSSO();
+
+          this.dataSharingService.isUserLoggedIn.next(true);
+
+        /*
+          this.connectWebSocket();
+
+          this.dataService.connect().subscribe(res => {
+            console.log(res);
+
+            this.messages9 = this.authService
+              .onUpdate(this.mysubid9)
+              .pipe(takeUntil(this.unsubscribeSubject))
+              .subscribe(post => {
+
+                // this.dataSource.loadLogs('', '', 'asc', 0, 6);
+
+                // this.dataSource.refresh(post);
+
+                console.log(post);
+
+              });
+
+          });
+          */
 
         },
         err => alert(err + '\nInvalid Credentials')
       );
+  }
+
+  connectWebSocket() {
+    this.dataService.connect();
+    //this.authService.connect();
   }
 
   saveToken(token) {
@@ -48,7 +104,7 @@ export class AppService {
   getResource(resourceUrl): Observable<any> {
     var cookie = Cookie.get('access_token');
     var headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Bearer ' + Cookie.get('access_token') });
-    return this._http.get(resourceUrl, { headers: headers });
+    return this.http.get(resourceUrl, { headers: headers });
     //                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 
@@ -57,22 +113,15 @@ export class AppService {
   }
 
   login() {
-//    window.location.href = 'http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
-      window.location.href = environment.sso_url+'/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
+    window.location.href = environment.sso_url + '/realms/zdslogic/protocol/openid-connect/auth?response_type=code&client_id=' +
       this.clientId + '&redirect_uri=' + this.redirectUri;
   }
 
   logout() {
-    let token = Cookie.get('access_token');
     Cookie.delete('access_token', '/');
-/*
-    let logoutURL = "http://localhost:8080/auth/realms/zdslogic/protocol/openid-connect/logout?id_token_hint="
-      + token
-      + "&post_logout_redirect_uri=" + this.redirectUri;
-*/
-//    let logoutURL ="http://localhost:18080/auth/realms/zdslogic/protocol/openid-connect/logout?redirect_uri="+this.redirectUri;
-    let logoutURL =environment.sso_url+'/realms/zdslogic/protocol/openid-connect/logout?redirect_uri='+this.redirectUri;
-
-    window.location.href = logoutURL;
+    this.userService.purgeAuth();
+    this.dataSharingService.isUserLoggedIn.next(false);
+    //let logoutURL = environment.sso_url + '/realms/zdslogic/protocol/openid-connect/logout?redirect_uri=' + this.redirectUri;
+    //window.location.href = logoutURL;
   }
 }

@@ -64,7 +64,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "port": 8089,
+            "port": 4200,
             "browserTarget": "oauth-ui-angular-articles:build"
           },
           "configurations": {
