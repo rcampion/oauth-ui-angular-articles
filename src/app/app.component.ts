@@ -8,6 +8,7 @@ import { UsersService } from './core/services/users.service';
 import { SocketClientService } from './core/services/socket-client.service';
 import { AuthenticationService } from './core/services/authentication.service';
 import { DataSharingService } from './core/services/datasharing.service';
+import { User } from './core/models/user';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   private authService: AuthenticationService;
 
   date: string;
+
+  sessionUser: User;
+  currentUser: User;
 
   messages9: any;
   mysubid9 = 'my-subscription-id-009';
@@ -47,12 +51,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.userService.populate();
+
+    // this.userService.populate();
     // this.userService.logout();
+
+    const isLoggedIn = this.appService.checkCredentials();
+
+    if (isLoggedIn) {
+      this.userService.getUserViaSSO();
+      this.dataSharingService.isUserLoggedIn.next(true);
+    }
 
   }
 
   ngAfterViewInit(): void {
+
     this.dataService.connect().subscribe(res => {
       console.log(res);
 
@@ -66,6 +79,17 @@ export class AppComponent implements OnInit, AfterViewInit {
           // this.dataSource.refresh(post);
 
           console.log(post);
+          if (post.message === 'Session Expired'){
+            // alert(post.message);
+            console.log(post.data);
+            this.sessionUser = post.data.data;
+            this.currentUser = this.userService.getCurrentUser();
+
+            if (this.sessionUser.userName === this.currentUser.userName){
+              this.userService.logout();
+              this.appService.logout();
+            }
+          }
 
           const isLoggedIn = this.appService.checkCredentials();
 
