@@ -23,18 +23,26 @@
     <mat-icon>group</mat-icon>
     <span class="nav-caption">Users</span>
   </a>
-  <!--
-  <mat-list-item [matMenuTriggerFor]="menu">
+
+    <mat-list-item [matMenuTriggerFor]="accountmenu">
     <mat-icon>unfold_more</mat-icon>
     <a matline>Account</a>
   </mat-list-item>
-  <mat-menu #menu="matMenu">
-    <button *appShowAuthed="false" mat-menu-item routerLink="/login" (click)="onSidenavClose()">Login</button>
-    <button *appShowAuthed="true"  mat-menu-item (click)="logout()">Logout</button>
-    <button mat-menu-item routerLink="/register" (click)="onSidenavClose()">Register</button>
+  <mat-menu #accountmenu="matMenu">
+    <button *ngIf="!isUserLoggedIn" mat-menu-item (click)="login()">
+      <mat-icon>login</mat-icon>Login
+    </button>
+    <button *ngIf="isUserLoggedIn" mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>Logout
+    </button>
+    <button *ngIf="!isUserLoggedIn" mat-menu-item routerLink="/register" (click)="onSidenavClose()">
+      <mat-icon>add</mat-icon>Register
+    </button>
+<!--
     <button *appShowAuthed="true" mat-menu-item routerLink="/password" (click)="onSidenavClose()">Change Password</button>
-  </mat-menu>
 -->
+  </mat-menu>
+  
   <mat-list-item [matMenuTriggerFor]="appsmenu">
     <mat-icon>unfold_more</mat-icon>
     <a matline>Apps</a>
