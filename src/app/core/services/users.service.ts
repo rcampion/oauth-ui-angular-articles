@@ -424,8 +424,8 @@ export class UsersService {
             {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Access-Control-Allow-Credentials': 'true',
-                'Authorization': 'Bearer ' + Cookie.get('access_token')
+                'Access-Control-Allow-Credentials': 'true'
+//                'Authorization': 'Bearer ' + Cookie.get('access_token')
             }
         );
         if (callServer) {
