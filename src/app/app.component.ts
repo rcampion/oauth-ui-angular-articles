@@ -73,21 +73,14 @@ export class AppComponent implements OnInit, AfterViewInit {
         .onUpdate(this.mysubid9)
         .pipe(takeUntil(this.unsubscribeSubject))
         .subscribe(post => {
-
-          // this.dataSource.loadLogs('', '', 'asc', 0, 6);
-
-          // this.dataSource.refresh(post);
-
-          console.log(post);
-          if (post.message === 'Session Expired'){
-            // alert(post.message);
-            console.log(post.data);
-            this.sessionUser = post.data.data;
-            this.currentUser = this.userService.getCurrentUser();
-
-            if (this.sessionUser.userName === this.currentUser.userName){
-              this.userService.logout();
-              this.appService.logout();
+          if (post.message === 'Session Expired') {
+            if (this.appService.checkCredentials()) {
+              this.sessionUser = post.data.data;
+              this.currentUser = this.userService.getCurrentUser();
+              if (this.sessionUser.userName === this.currentUser.userName) {
+                this.userService.logout();
+                this.appService.logout();
+              }
             }
           }
 
