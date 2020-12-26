@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     login() {
-        this.logout();
+        this.userService.purgeAuth();
 
         this.appService.login();
 
