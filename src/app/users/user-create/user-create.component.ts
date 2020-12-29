@@ -33,6 +33,7 @@ export class UserCreateComponent implements OnInit {
             password: new FormControl('', [Validators.required, Validators.maxLength(60)]),
             enabled: new FormControl(''),
             email: new FormControl(''),
+            isLoggedIn: new FormControl('')
         });
 
         this.dialogConfig = {
@@ -69,6 +70,7 @@ export class UserCreateComponent implements OnInit {
             email: userFormValue.email,
             bio: userFormValue.bio,
             image: userFormValue.image,
+            isLoggedIn: userFormValue.isLoggedIn,
         };
 
         const apiUrl = 'users';

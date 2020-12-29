@@ -19,7 +19,7 @@ import { UserDeleteDialogComponent } from './../user-delete/user-delete-dialog.c
 })
 export class UsersListComponent implements OnInit, AfterViewInit {
 
-    public displayedColumns = ['userName', 'firstName', 'lastName', 'details', 'update', 'delete'];
+    public displayedColumns = ['userName', 'firstName', 'lastName', 'isLoggedIn', 'details', 'update', 'delete'];
 
     dataSource: UsersDataSource;
     @ViewChild(MatSort, {static: false}) sort: MatSort;

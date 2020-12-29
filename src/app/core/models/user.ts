@@ -24,6 +24,7 @@ export class User {
 
     image: string;
 
+    isLoggedIn: boolean;
 
   constructor(user?: { id: number,
     login: string,
@@ -34,7 +35,8 @@ export class User {
     enabled: string,
     email: string,
     bio: string,
-    image: string
+    image: string,
+    isLoggedIn: boolean
      }) {
     if (user) {
       _.assignIn(this, user);

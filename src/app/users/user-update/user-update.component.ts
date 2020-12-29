@@ -77,6 +77,7 @@ export class UserUpdateComponent implements OnInit {
         this.userForm.controls['email'].setValue(this.user.email);
         this.userForm.controls['bio'].setValue(this.user.bio);
         this.userForm.controls['image'].setValue(this.user.image);
+        this.userForm.controls['isLoggedIn'].setValue(this.user.isLoggedIn);
     }
 
     public updateUser = (userFormValue) => {
@@ -97,7 +98,7 @@ export class UserUpdateComponent implements OnInit {
             email: userFormValue.email,
             bio: userFormValue.bio,
             image: userFormValue.image,
-
+            isLoggedIn: userFormValue.isLoggedIn,
         };
 
         const apiUrl = 'users';
