@@ -24,7 +24,7 @@
     <span class="nav-caption">Users</span>
   </a>
 
-    <mat-list-item [matMenuTriggerFor]="accountmenu">
+  <mat-list-item [matMenuTriggerFor]="accountmenu">
     <mat-icon>unfold_more</mat-icon>
     <a matline>Account</a>
   </mat-list-item>
@@ -32,11 +32,14 @@
     <button *ngIf="!isUserLoggedIn" mat-menu-item (click)="login()">
       <mat-icon>login</mat-icon>Login
     </button>
+    <button *ngIf="!isUserLoggedIn" mat-menu-item routerLink="/register" (click)="onSidenavClose()">
+      <mat-icon>add</mat-icon>Register
+    </button>
     <button *ngIf="isUserLoggedIn" mat-menu-item (click)="logout()">
       <mat-icon>logout</mat-icon>Logout
     </button>
-    <button *ngIf="!isUserLoggedIn" mat-menu-item routerLink="/register" (click)="onSidenavClose()">
-      <mat-icon>add</mat-icon>Register
+    <button *ngIf="isUserLoggedIn" mat-menu-item routerLink="/settings" (click)="onSidenavClose()">
+      <mat-icon>settings</mat-icon>Settings
     </button>
 <!--
     <button *appShowAuthed="true" mat-menu-item routerLink="/password" (click)="onSidenavClose()">Change Password</button>
