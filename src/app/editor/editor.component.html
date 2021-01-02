@@ -62,6 +62,11 @@
               </div>
             </fieldset>
             
+            <input type="file" (change)="upload($event.target.files)">
+
+            <button class="btn btn-lg pull-xs-right btn-danger" type="button" (click)="onCancel()">
+              Cancel
+            </button>            
             <button class="btn btn-lg pull-xs-right btn-primary" type="button" (click)="submitForm()">
               Publish Article
             </button>

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { UploadService } from '../core/services/upload.service';
+import { Location } from '@angular/common';
 import { Article, ArticlesService } from '../core';
+import { ErrorHandlerService } from './../core/services/error-handler.service';
 
 @Component({
     selector: 'app-editor-page',
@@ -14,12 +16,16 @@ export class EditorComponent implements OnInit {
     // tagField = new FormControl();
     errors: Object = {};
     isSubmitting = false;
+    embedFile;
 
     constructor(
         private articlesService: ArticlesService,
         private route: ActivatedRoute,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private location: Location,
+        private uploadService: UploadService,
+        private errorHandler: ErrorHandlerService
     ) {
         // use the FormBuilder to create a form group
         this.articleForm = this.fb.group({
@@ -97,5 +103,32 @@ export class EditorComponent implements OnInit {
 
     updateArticle(values: Object) {
         Object.assign(this.article, values);
+    }
+
+
+    upload(files: FileList) {
+        const file = files.item(0);
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        this.uploadService.upload(formData).subscribe(
+            res => {
+                console.log(res);
+                this.embedFile = res;
+                if ("body" in res) {
+                    let tempBody = this.articleForm.controls['body'].value;
+                    tempBody = tempBody + "  \n";
+                    tempBody = tempBody + "![Image](" + this.embedFile.body.fileDownloadUri + ")";
+                    this.articleForm.controls['body'].setValue(tempBody);
+                }
+            },
+            (error) => {
+                this.errorHandler.handleError(error);
+            });
+    }
+    
+    public onCancel = () => {
+        this.location.back();
     }
 }
