@@ -5,7 +5,7 @@
       <tr>
         <td>
           <div>
-            <button *ngIf="isAuthenticated" mat-menu-item routerLink="/editor" routerLinkActive="active">
+            <button *ngIf="isUserLoggedIn" mat-menu-item routerLink="/editor" routerLinkActive="active">
               <mat-icon>post_add</mat-icon>&nbsp;New Article
             </button>
           </div>

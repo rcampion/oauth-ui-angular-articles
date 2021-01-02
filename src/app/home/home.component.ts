@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { ArticleListConfig, TagsService } from '../core';
 import { UsersService } from '../core/services/users.service';
+import { DataSharingService } from '../core/services/datasharing.service';
 
 @Component({
 	selector: 'app-home-page',
@@ -15,10 +16,20 @@ export class HomeComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private tagsService: TagsService,
-		private userService: UsersService
-	) { }
+		private userService: UsersService,
+		private dataSharingService: DataSharingService
+	)  {
 
-	isAuthenticated: boolean;
+		this.userService = userService;
+
+		// Subscribe here, this will automatically update 
+		// "isUserLoggedIn" whenever a change to the subject is made.
+		this.dataSharingService.isUserLoggedIn.subscribe(value => {
+			this.isUserLoggedIn = value;
+		});
+	}
+
+	isUserLoggedIn: boolean;
 	listConfig: ArticleListConfig = {
 		type: 'all',
 		filters: {}
@@ -30,13 +41,9 @@ export class HomeComponent implements OnInit {
 
 		if (this.userService.isUserAuthenticated()) {
 
-			this.isAuthenticated = true;
-
 			this.setListTo('all');
 		}
 		else {
-
-			this.isAuthenticated = false;
 
 			this.setListTo('all');
 		}
