@@ -29,6 +29,7 @@ export class UserUpdateComponent implements OnInit {
 
         this.userForm = new FormGroup({
             id: new FormControl(''),
+            contactId: new FormControl(''),
             login: new FormControl(''),
             userName: new FormControl('', [Validators.required, Validators.maxLength(60)]),
             firstName: new FormControl('', [Validators.required, Validators.maxLength(60)]),
@@ -69,6 +70,7 @@ export class UserUpdateComponent implements OnInit {
 
     private populateForm() {
         this.userForm.controls['id'].setValue(this.user.id);
+        this.userForm.controls['contactId'].setValue(this.user.contactId);
         this.userForm.controls['login'].setValue(this.user.login);
         this.userForm.controls['userName'].setValue(this.user.userName);
         this.userForm.controls['firstName'].setValue(this.user.firstName);
@@ -89,6 +91,7 @@ export class UserUpdateComponent implements OnInit {
     private executeUserUpdate = (userFormValue) => {
         const user: User = {
             id: userFormValue.id,
+            contactId: userFormValue.contactId,
             login: userFormValue.login,
             userName: userFormValue.userName,
             firstName: userFormValue.firstName,

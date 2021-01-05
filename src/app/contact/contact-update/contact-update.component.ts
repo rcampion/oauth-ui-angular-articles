@@ -7,6 +7,7 @@ import { ContactsService } from '../../core/services/contacts.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SuccessDialogComponent } from '../../shared/dialogs/success-dialog/success-dialog.component';
 import { ErrorHandlerService } from '../../core/services/error-handler.service';
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
     selector: 'app-contact-update',
@@ -19,16 +20,18 @@ export class ContactUpdateComponent implements OnInit {
 
     private dialogConfig;
 
-    // tslint:disable-next-line:max-line-length
-    constructor(private location: Location, private repository: ContactsService, private dialog: MatDialog,
-        router: Router,
-        private activeRoute: ActivatedRoute, private errorService: ErrorHandlerService) { }
-
+    constructor(private location: Location,
+        private repository: ContactsService,
+        public userService: UsersService,
+        private dialog: MatDialog,
+        private activeRoute: ActivatedRoute,
+        private errorService: ErrorHandlerService) { }
 
     ngOnInit() {
 
         this.contactForm = new FormGroup({
             id: new FormControl(''),
+            userId: new FormControl(''),
             firstName: new FormControl('', [Validators.required, Validators.maxLength(60)]),
             lastName: new FormControl('', [Validators.required, Validators.maxLength(60)]),
             company: new FormControl('', [Validators.required, Validators.maxLength(60)]),
@@ -63,6 +66,7 @@ export class ContactUpdateComponent implements OnInit {
 
     private populateForm() {
         this.contactForm.controls['id'].setValue(this.contact.id);
+        this.contactForm.controls['userId'].setValue(this.contact.userId);
         this.contactForm.controls['firstName'].setValue(this.contact.firstName);
         this.contactForm.controls['lastName'].setValue(this.contact.lastName);
         this.contactForm.controls['company'].setValue(this.contact.company);
@@ -77,6 +81,7 @@ export class ContactUpdateComponent implements OnInit {
     private executeContactUpdate = (contactFormValue) => {
         const contact: Contact = {
             id: contactFormValue.id,
+            userId: contactFormValue.userId,
             firstName: contactFormValue.firstName,
             lastName: contactFormValue.lastName,
             company: contactFormValue.company,

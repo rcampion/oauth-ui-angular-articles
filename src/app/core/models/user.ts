@@ -6,6 +6,8 @@ export class User {
 
     id: string;
 
+    contactId: string;
+
     login: string;
 
     userName: string;

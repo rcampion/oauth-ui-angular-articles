@@ -16,7 +16,6 @@ export class UserCreateComponent implements OnInit {
     public userForm: FormGroup;
     private dialogConfig;
 
-    // tslint:disable-next-line:max-line-length
     constructor(private location: Location,
         private repository: UsersService,
         private dialog: MatDialog,
@@ -26,6 +25,7 @@ export class UserCreateComponent implements OnInit {
     ngOnInit() {
         this.userForm = new FormGroup({
             id: new FormControl(''),
+            conatactId: new FormControl(''),
             login: new FormControl(''),
             userName: new FormControl('', [Validators.required, Validators.maxLength(60)]),
             firstName: new FormControl('', [Validators.required, Validators.maxLength(60)]),
@@ -61,6 +61,7 @@ export class UserCreateComponent implements OnInit {
     private executeUserCreation = (userFormValue) => {
         const user: User = {
             id: userFormValue.id,
+            contactId: userFormValue.contactId,
             login: userFormValue.login,
             userName: userFormValue.userName,
             firstName: userFormValue.firstName,

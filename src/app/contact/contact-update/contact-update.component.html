@@ -1,6 +1,6 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center">
   <mat-card fxFlex="500px" fxFlex.xs="100%">
-    <mat-card-title>Update contact</mat-card-title>
+    <mat-card-title>Update Contact</mat-card-title>
     <form [formGroup]="contactForm" autocomplete="off" novalidate (ngSubmit)="updateContact(contactForm.value)" fxLayout="column wrap"
       fxLayoutAlign="center center" fxLayoutGap="10px">
       <mat-card-content>
@@ -33,6 +33,13 @@
           <mat-error *ngIf="hasError('title', 'maxlength')">You have more than 60 characters</mat-error>
         </mat-form-field>
 
+        <div *ngIf="userService.isUserAuthorized(['ROLE_ADMIN'])"> 
+          <mat-form-field>
+            <input matInput type="text" placeholder="User Id"
+              formControlName="userId" id="userId">
+          </mat-form-field>
+        </div>
+        
       </mat-card-content>
       <mat-card-actions align="center">
         <button mat-raised-button color="primary" [disabled]="!contactForm.valid">Update</button>
