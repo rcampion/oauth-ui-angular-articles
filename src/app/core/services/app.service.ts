@@ -17,7 +17,6 @@ import { DataSharingService } from './datasharing.service';
 })
 export class AppService {
   public clientId = 'newClient';
-  //public redirectUri = 'http://localhost:8089/home';
   public redirectUri = environment.redirectUri;
   private http: HttpClient;
   private userService: UsersService;
@@ -25,11 +24,6 @@ export class AppService {
   private authService: AuthenticationService;
 
   currentUser: User;
-
-  messages9: any;
-  mysubid9 = 'my-subscription-id-009';
-
-  private unsubscribeSubject: Subject<void> = new Subject<void>();
 
   constructor(private handler: HttpBackend,
     userService: UsersService,
@@ -62,28 +56,6 @@ export class AppService {
           this.userService.loginViaSSO();
 
           this.dataSharingService.isUserLoggedIn.next(true);
-
-        /*
-          this.connectWebSocket();
-
-          this.dataService.connect().subscribe(res => {
-            console.log(res);
-
-            this.messages9 = this.authService
-              .onUpdate(this.mysubid9)
-              .pipe(takeUntil(this.unsubscribeSubject))
-              .subscribe(post => {
-
-                // this.dataSource.loadLogs('', '', 'asc', 0, 6);
-
-                // this.dataSource.refresh(post);
-
-                console.log(post);
-
-              });
-
-          });
-          */
 
         },
         err => alert(err + '\nInvalid Credentials')

@@ -29,8 +29,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   sessionUser: User;
   currentUser: User;
 
-  messages9: any;
-  mysubid9 = 'my-subscription-id-009';
+  messages20: any;
+  mysubid20 = 'my-subscription-id-020';
 
   private unsubscribeSubject: Subject<void> = new Subject<void>();
 
@@ -52,9 +52,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    // this.userService.populate();
-    // this.userService.logout();
-
     const isLoggedIn = this.appService.checkCredentials();
 
     if (isLoggedIn) {
@@ -69,8 +66,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.dataService.connect().subscribe(res => {
       console.log(res);
 
-      this.messages9 = this.authService
-        .onUpdate(this.mysubid9)
+      this.messages20 = this.authService
+        .onUpdate(this.mysubid20)
         .pipe(takeUntil(this.unsubscribeSubject))
         .subscribe(post => {
           if (post.message === 'Session Expired') {
@@ -90,25 +87,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
             this.userService.getUserViaSSO();
 
-            // window.location.reload();
-/*
-            this.href = this.router.url;
-
-            this.router.navigateByUrl('/header', { skipLocationChange: true }).then(() => {
-              this.router.navigate([this.href]);
-            });
-*/
             this.dataSharingService.isUserLoggedIn.next(true);
 
           } else {
-/*
-            // window.location.reload();
-            this.href = this.router.url;
 
-            this.router.navigateByUrl('/header', { skipLocationChange: true }).then(() => {
-              this.router.navigate([this.href]);
-            });
-*/
             this.dataSharingService.isUserLoggedIn.next(false);
           }
 
