@@ -29,6 +29,7 @@ export class User {
     isLoggedIn: boolean;
 
   constructor(user?: { id: number,
+    contactId: string,
     login: string,
     userName: string,
     password: string,

@@ -55,8 +55,6 @@ export class AppService {
 
           this.userService.loginViaSSO();
 
-          this.dataSharingService.isUserLoggedIn.next(true);
-
         },
         err => alert(err + '\nInvalid Credentials')
       );
@@ -91,7 +89,7 @@ export class AppService {
 
   logout() {
     Cookie.delete('access_token', '/');
-    Cookie.delete('OAuth_Token_Request_State', '/');    
+    Cookie.delete('OAuth_Token_Request_State', '/');
     this.userService.purgeAuth();
     this.dataSharingService.isUserLoggedIn.next(false);
     //let logoutURL = environment.sso_url + '/realms/zdslogic/protocol/openid-connect/logout?redirect_uri=' + this.redirectUri;

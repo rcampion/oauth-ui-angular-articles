@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -19,11 +19,6 @@ import { User } from './core/models/user';
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'ng9-articles';
 
-  private appService: AppService;
-  private userService: UsersService;
-  private dataService: SocketClientService;
-  private authService: AuthenticationService;
-
   date: string;
 
   sessionUser: User;
@@ -35,17 +30,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   private unsubscribeSubject: Subject<void> = new Subject<void>();
 
   constructor(
-    router: Router,
-    appService: AppService,
-    userService: UsersService,
-    dataService: SocketClientService,
-    authService: AuthenticationService,
+    private router: Router,
+    private appService: AppService,
+    private userService: UsersService,
+    private wsDataService: SocketClientService,
+    private authService: AuthenticationService,
     private dataSharingService: DataSharingService) {
-
-    this.appService = appService;
-    this.userService = userService;
-    this.dataService = dataService;
-    this.authService = authService;
 
     this.date = this.getDate();
   }
@@ -56,21 +46,32 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     if (isLoggedIn) {
       this.userService.getUserViaSSO();
-      this.dataSharingService.isUserLoggedIn.next(true);
     }
+
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+
+    this.router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        this.router.navigated = false;
+        window.scrollTo(0, 0);
+      }
+    });
 
   }
 
   ngAfterViewInit(): void {
 
-    this.dataService.connect().subscribe(res => {
+    this.wsDataService.connect().subscribe(res => {
       console.log(res);
 
       this.messages20 = this.authService
         .onUpdate(this.mysubid20)
         .pipe(takeUntil(this.unsubscribeSubject))
         .subscribe(post => {
-          if (post.message === 'Session Expired') {
+          if ((post.message === 'Session Expired')
+            || (post.message === 'Logged Out')) {
             if (this.appService.checkCredentials()) {
               this.sessionUser = post.data.data;
               this.currentUser = this.userService.getCurrentUser();
@@ -87,7 +88,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
             this.userService.getUserViaSSO();
 
-            this.dataSharingService.isUserLoggedIn.next(true);
+            // this.dataSharingService.isUserLoggedIn.next(true);
 
           } else {
 
@@ -97,15 +98,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
 
     });
-  }
-
-  logout(): void {
-    this.userService.logout();
-  }
-
-  connectWebSocket() {
-    this.dataService.connect();
-    //this.authService.connect();
   }
 
   getDate() {

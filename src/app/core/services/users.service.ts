@@ -22,6 +22,8 @@ import { SecurityToken } from '../models/securityToken';
 import { Authority } from '../models/authority';
 import * as AppUtils from '../../utils/app.utils';
 
+import { DataSharingService } from '../../core/services/datasharing.service';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -50,6 +52,8 @@ export class UsersService {
         private errorHandlerService: ErrorHandlerService,
 
         private accountEventService: AccountEventsService,
+
+        private dataSharingService: DataSharingService,
 
         private router: Router) { }
 
@@ -252,6 +256,7 @@ export class UsersService {
                     console.log('Successfully logged in.', account);
                     this.account.authenticated = true;
                     this.router.navigateByUrl('/home');
+                    this.dataSharingService.isUserLoggedIn.next(true);
                 },
 
                     (err) => this.error = err); // Reach here if fails;
@@ -328,6 +333,7 @@ export class UsersService {
                     this.account = account;
                     console.log('Successfully logged in.', account);
                     this.account.authenticated = true;
+                    this.dataSharingService.isUserLoggedIn.next(true);
                     this.router.navigateByUrl('/home');
                 },
 
@@ -337,29 +343,7 @@ export class UsersService {
             console.log(e);
         }
     }
-/*    
-    public loginViaSSO(): Observable<User> {
 
-        try {
-            this.login()
-
-                .subscribe(account => {
-                    this.account = account;
-                    console.log('Successfully logged in.', account);
-                    this.account.authenticated = true;
-                    //this.router.navigateByUrl('/home');
-
-                },
-
-                    (err) => this.error = err); // Reach here if fails;
-
-        } catch (e) {
-            console.log(e);
-        }
-
-        return this.currentUser;
-    }
-*/
     public login(): Observable<Account> {
 
         const headers = new HttpHeaders(
@@ -423,8 +407,8 @@ export class UsersService {
         const headers = new HttpHeaders(
             {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Access-Control-Allow-Credentials': 'true'
+                'Accept': 'application/json'
+//                'Access-Control-Allow-Credentials': 'true',
 //                'Authorization': 'Bearer ' + Cookie.get('access_token')
             }
         );
@@ -437,6 +421,7 @@ export class UsersService {
                 this.accountEventService.logout(new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN))));
                 this.removeAccount();
                 this.purgeAuth();
+                this.dataSharingService.isUserLoggedIn.next(false);
                 //this.router.navigate(['/about']);
                 //window.location.reload();
             });
@@ -454,7 +439,7 @@ export class UsersService {
     }
 
     isUserAuthenticated(): boolean {
-        const value = localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN);
+        const value = Cookie.get('access_token');
 
         if (value){
             return true;
@@ -526,7 +511,7 @@ export class UsersService {
     purgeAuth() {
         // Remove JWT from localstorage
         this.jwtService.destroyToken();
-        // Cookie.delete('access_token', '/');
+        Cookie.delete('access_token', '/');
         // Set current user to an empty object
         this.currentUserSubject.next({} as User);
         // Set auth status to false
